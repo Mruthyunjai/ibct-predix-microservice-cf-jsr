@@ -1,0 +1,6 @@
+---
+appications:
+  - name: ibct-predix-microservices-cf-jsr
+    buildpack: java_buildpack
+    path: target/ibct-service.jar
+    timeout : 180
