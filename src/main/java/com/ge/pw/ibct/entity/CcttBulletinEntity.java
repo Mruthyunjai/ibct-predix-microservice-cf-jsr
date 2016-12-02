@@ -43,6 +43,9 @@ public class CcttBulletinEntity implements Serializable {
     //----------------------------------------------------------------------
     // ENTITY DATA FIELDS 
     //----------------------------------------------------------------------    
+    @Column(name="product_line", nullable=false, length=50)
+    private String     productLine  ;
+
     @Column(name="bulletin_type_code", nullable=false)
     private Integer    bulletinTypeCode ;
 
@@ -79,10 +82,10 @@ public class CcttBulletinEntity implements Serializable {
     //----------------------------------------------------------------------
     // ENTITY LINKS ( RELATIONSHIP )
     //----------------------------------------------------------------------
-    @ManyToOne
+    /*@ManyToOne
     @JoinColumn(name="product_line", referencedColumnName="product_line")
     private CcttProductLineEntity ccttProductLine;
-
+*/
 
     //----------------------------------------------------------------------
     // CONSTRUCTOR(S)
@@ -176,16 +179,21 @@ public class CcttBulletinEntity implements Serializable {
         return this.lastUpdatedDate;
     }
 
-
+    public void setProductLine( String productLine ) {
+        this.productLine = productLine;
+    }
+    public String getProductLine() {
+        return this.productLine;
+    }
     //----------------------------------------------------------------------
     // GETTERS & SETTERS FOR LINKS
     //----------------------------------------------------------------------
-    public void setCcttProductLine( CcttProductLineEntity ccttProductLine ) {
+    /*public void setCcttProductLine( CcttProductLineEntity ccttProductLine ) {
         this.ccttProductLine = ccttProductLine;
     }
     public CcttProductLineEntity getCcttProductLine() {
         return this.ccttProductLine;
-    }
+    }*/
 
 
     //----------------------------------------------------------------------

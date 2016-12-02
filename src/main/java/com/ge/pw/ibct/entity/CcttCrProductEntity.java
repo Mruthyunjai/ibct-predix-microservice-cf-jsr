@@ -148,10 +148,10 @@ public class CcttCrProductEntity implements Serializable {
     //----------------------------------------------------------------------
     // ENTITY LINKS ( RELATIONSHIP )
     //----------------------------------------------------------------------
-    @ManyToOne
+    /*@ManyToOne
     @JoinColumn(name="product_line", referencedColumnName="product_line")
     private CcttProductLineEntity ccttProductLine;
-
+*/
 
     //----------------------------------------------------------------------
     // CONSTRUCTOR(S)
@@ -425,13 +425,13 @@ public class CcttCrProductEntity implements Serializable {
     //----------------------------------------------------------------------
     // GETTERS & SETTERS FOR LINKS
     //----------------------------------------------------------------------
-    public void setCcttProductLine( CcttProductLineEntity ccttProductLine ) {
+    /*public void setCcttProductLine( CcttProductLineEntity ccttProductLine ) {
         this.ccttProductLine = ccttProductLine;
     }
     public CcttProductLineEntity getCcttProductLine() {
         return this.ccttProductLine;
     }
-
+*/
 
     //----------------------------------------------------------------------
     // toString METHOD

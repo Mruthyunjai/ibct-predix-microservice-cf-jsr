@@ -11,4 +11,6 @@ import com.ge.pw.ibct.entity.CcttBulletinEntity;
  */
 public interface CcttBulletinJpaRepository extends PagingAndSortingRepository<CcttBulletinEntity, String> {
 	List<CcttBulletinEntity> findByBulletinNum(String bulletinNum);
+	
+	CcttBulletinEntity findOne(String bulletinNum);
 }

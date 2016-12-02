@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.ge.pw.ibct.beans.CcttBulletin;
 import com.ge.pw.ibct.repository.CcttBulletinJpaRepository;
+import com.ge.pw.ibct.repository.CcttProductLineJpaRepository;
 import com.ge.pw.ibct.entity.CcttBulletinEntity;
 
 @Service
@@ -37,5 +38,16 @@ public class BulletinService{
 		}
 		return beanList;
 		
+	}
+	
+	
+	public CcttBulletinEntity getBulletin(String bulletinNumber){
+		return ccttBulletinJpaRepository.findOne(bulletinNumber);
+	}
+	
+	public Object cancelBulletin(String bulletinNumber){
+		CcttBulletinEntity bulletin = ccttBulletinJpaRepository.findOne(bulletinNumber);
+		bulletin.setBulletinStatus("INEFFECTIVE");
+		return ccttBulletinJpaRepository.save(bulletin);
 	}
 }

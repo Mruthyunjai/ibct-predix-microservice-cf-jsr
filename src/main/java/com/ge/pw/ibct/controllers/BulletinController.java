@@ -23,7 +23,7 @@ public class BulletinController{
 	BulletinService bulletinService;
 	
 	
-	@RequestMapping("/Bulletin/{bullNum}")
+	@RequestMapping("/Bulletins/{bullNum}")
 	public @ResponseBody WSResponseStatus getBulletins(
 			@PathVariable String bullNum) {
 		WSResponseStatus wsResponseStatus = new WSResponseStatus();
@@ -36,4 +36,22 @@ public class BulletinController{
 	public @ResponseBody Bulletindto getBulletins(@PathVariable String bulletinNum){
 		return new Bulletindto().getBulletindtofromEntity(bulletinService.getBulletins(bulletinNum).get(1));
 	}*/
+	
+	@RequestMapping("/Bulletin/{bullNum}")
+	public @ResponseBody WSResponseStatus getBulletin(
+			@PathVariable String bullNum) {
+		WSResponseStatus wsResponseStatus = new WSResponseStatus();
+		CommonUtil.populateWSResponseStatusSuccessResponse(wsResponseStatus);
+		wsResponseStatus.setData(bulletinService.getBulletin(bullNum));
+		return wsResponseStatus;
+	}
+	
+	@RequestMapping("/Bulletin/Cancel/{bullNum}")
+	public @ResponseBody WSResponseStatus cancelBulletin(
+			@PathVariable String bullNum) {
+		WSResponseStatus wsResponseStatus = new WSResponseStatus();
+		CommonUtil.populateWSResponseStatusSuccessResponse(wsResponseStatus);
+		wsResponseStatus.setData(bulletinService.cancelBulletin(bullNum));
+		return wsResponseStatus;
+	}
 }

@@ -66,12 +66,12 @@ public class CcttProductLineEntity implements Serializable {
     //----------------------------------------------------------------------
     // ENTITY LINKS ( RELATIONSHIP )
     //----------------------------------------------------------------------
-    @OneToMany(mappedBy="ccttProductLine", targetEntity=CcttCrProductEntity.class)
+    /*@OneToMany(mappedBy="ccttProductLine", targetEntity=CcttCrProductEntity.class)
     private List<CcttCrProductEntity> listOfCcttCrProduct;
 
     @OneToMany(mappedBy="ccttProductLine", targetEntity=CcttBulletinEntity.class)
     private List<CcttBulletinEntity> listOfCcttBulletin;
-
+*/
 
     //----------------------------------------------------------------------
     // CONSTRUCTOR(S)
@@ -137,7 +137,7 @@ public class CcttProductLineEntity implements Serializable {
     //----------------------------------------------------------------------
     // GETTERS & SETTERS FOR LINKS
     //----------------------------------------------------------------------
-    public void setListOfCcttCrProduct( List<CcttCrProductEntity> listOfCcttCrProduct ) {
+   /* public void setListOfCcttCrProduct( List<CcttCrProductEntity> listOfCcttCrProduct ) {
         this.listOfCcttCrProduct = listOfCcttCrProduct;
     }
     public List<CcttCrProductEntity> getListOfCcttCrProduct() {
@@ -150,7 +150,7 @@ public class CcttProductLineEntity implements Serializable {
     public List<CcttBulletinEntity> getListOfCcttBulletin() {
         return this.listOfCcttBulletin;
     }
-
+*/
 
     //----------------------------------------------------------------------
     // toString METHOD
