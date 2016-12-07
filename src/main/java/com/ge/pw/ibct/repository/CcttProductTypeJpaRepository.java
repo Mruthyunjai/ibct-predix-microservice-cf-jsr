@@ -12,6 +12,8 @@ import com.ge.pw.ibct.utils.Queries;
  * Repository : CcttProductType.
  */
 public interface CcttProductTypeJpaRepository extends PagingAndSortingRepository<CcttProductTypeEntity, String> {
+
+	List<CcttProductTypeEntity> findByBulletinTypeCode(Integer bulletinTypeCode);
 		
 		//@Query(Queries.PRODUCT_TYPE)
 		//List getProductTypes();

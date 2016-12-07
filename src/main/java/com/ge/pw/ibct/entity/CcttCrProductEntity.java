@@ -142,6 +142,8 @@ public class CcttCrProductEntity implements Serializable {
     @Column(name="primary_fuel_code", length=30)
     private String     primaryFuelCode ;
 
+    @Column(name="product_line", length=30)
+    private String     productLine ;
 	// "productLine" (column "product_line") is not defined by itself because used as FK in a link 
 
 
@@ -432,7 +434,13 @@ public class CcttCrProductEntity implements Serializable {
         return this.ccttProductLine;
     }
 */
-
+    public void setProductLine( String productLine ) {
+        this.productLine = productLine;
+    }
+    public String getProductLine() {
+        return this.productLine;
+    }
+    
     //----------------------------------------------------------------------
     // toString METHOD
     //----------------------------------------------------------------------
