@@ -15,4 +15,6 @@ public interface CcttProductLineJpaRepository extends PagingAndSortingRepository
 	
 		//@Query(Queries.PRODUCT_LINE)
 		List<CcttProductLineEntity> findAll();
+
+		CcttProductLineEntity findByProductLine(String productLine);
 }

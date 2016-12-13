@@ -17,4 +17,5 @@ public interface CcttBulletinJpaRepository extends PagingAndSortingRepository<Cc
 	CcttBulletinEntity findOne(String bulletinNum);
 	
 	List<CcttBulletinEntity> findByBulletinTypeCodeAndProductLineAndBulletinStatus(Integer bulletinTypeCode,String productLine,String bulletinStatus);
+	<S extends CcttBulletinEntity> S save(S entity);
 }

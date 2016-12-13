@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Telosys Database Repository --><root>
-<tableList databaseId="1" databaseName="POSTGRESQL" databaseProductName="PostgreSQL" generation="2016-11-30 19:27:43">
+<tableList databaseId="2" databaseName="POSTGRESQL" databaseProductName="PostgreSQL" generation="2016-12-08 20:22:14">
 <table catalog="" databaseType="TABLE" javaBean="CcttBulletin" name="cctt_bulletin" schema="cct">
 <column dbComment="" dbDefaultValue="" dbName="bulletin_num" dbNotNull="true" dbPosition="1" dbPrimaryKey="true" dbSize="50" dbTypeName="varchar" inputType="text" javaName="bulletinNum" javaType="java.lang.String" jdbcTypeCode="12" label="Bulletin num" maxLength="50" notEmpty="true" notNull="true" selected="true"/>
 <column dbComment="" dbDefaultValue="" dbForeignKey="true" dbName="product_line" dbNotNull="true" dbPosition="2" dbSize="25" dbTypeName="varchar" inputType="text" javaName="productLine" javaType="java.lang.String" jdbcTypeCode="12" label="Product line" maxLength="25" notEmpty="true" notNull="true" selected="true"/>
@@ -21,6 +21,18 @@
 <joinColumn insertable="false" name="product_line" nullable="true" referencedColumnName="product_line" unique="false" updatable="false"/>
 </joinColumns>
 </link>
+</table>
+<table catalog="" databaseType="TABLE" javaBean="CcttBulletinProduct" name="cctt_bulletin_product" schema="cct">
+<column dbComment="" dbDefaultValue="" dbName="from_serial_num" dbNotNull="true" dbPosition="1" dbPrimaryKey="true" dbSize="20" dbTypeName="varchar" inputType="text" javaName="fromSerialNum" javaType="java.lang.String" jdbcTypeCode="12" label="From serial num" maxLength="20" notEmpty="true" notNull="true" selected="true"/>
+<column dbComment="" dbDefaultValue="" dbName="rev_id" dbNotNull="true" dbPosition="2" dbPrimaryKey="true" dbSize="10" dbTypeName="int4" inputType="number" javaName="revId" javaType="java.lang.Integer" jdbcTypeCode="4" label="Rev id" notNull="true" selected="true"/>
+<column dbComment="" dbDefaultValue="" dbName="bulletin_num" dbNotNull="true" dbPosition="3" dbPrimaryKey="true" dbSize="50" dbTypeName="varchar" inputType="text" javaName="bulletinNum" javaType="java.lang.String" jdbcTypeCode="12" label="Bulletin num" maxLength="50" notEmpty="true" notNull="true" selected="true"/>
+<column dbComment="" dbDefaultValue="" dbName="to_serial_num" dbNotNull="false" dbPosition="4" dbSize="20" dbTypeName="varchar" inputType="text" javaName="toSerialNum" javaType="java.lang.String" jdbcTypeCode="12" label="To serial num" maxLength="20" notNull="false" selected="true"/>
+<column dbComment="" dbDefaultValue="" dbName="created_by" dbNotNull="true" dbPosition="5" dbSize="20" dbTypeName="varchar" inputType="text" javaName="createdBy" javaType="java.lang.String" jdbcTypeCode="12" label="Created by" maxLength="20" notEmpty="true" notNull="true" selected="true"/>
+<column dateType="DT" dbComment="" dbDefaultValue="" dbName="created_date" dbNotNull="true" dbPosition="6" dbSize="29" dbTypeName="timestamp" inputType="" javaName="createdDate" javaType="java.util.Date" jdbcTypeCode="93" label="Created date" notNull="true" selected="true"/>
+<column dbComment="" dbDefaultValue="" dbName="last_updated_by" dbNotNull="true" dbPosition="7" dbSize="20" dbTypeName="varchar" inputType="text" javaName="lastUpdatedBy" javaType="java.lang.String" jdbcTypeCode="12" label="Last updated by" maxLength="20" notEmpty="true" notNull="true" selected="true"/>
+<column dateType="DT" dbComment="" dbDefaultValue="" dbName="last_updated_date" dbNotNull="true" dbPosition="8" dbSize="29" dbTypeName="timestamp" inputType="" javaName="lastUpdatedDate" javaType="java.util.Date" jdbcTypeCode="93" label="Last updated date" notNull="true" selected="true"/>
+<column dateType="DT" dbComment="" dbDefaultValue="" dbName="cmpl_end_date" dbNotNull="false" dbPosition="9" dbSize="29" dbTypeName="timestamp" inputType="" javaName="cmplEndDate" javaType="java.util.Date" jdbcTypeCode="93" label="Cmpl end date" notNull="false" selected="true"/>
+<column dbComment="" dbDefaultValue="" dbName="timing_code" dbNotNull="true" dbPosition="10" dbPrimaryKey="true" dbSize="10" dbTypeName="int4" inputType="number" javaName="timingCode" javaType="java.lang.Integer" jdbcTypeCode="4" label="Timing code" notNull="true" selected="true"/>
 </table>
 <table catalog="" databaseType="TABLE" javaBean="CcttBulletinRevision" name="cctt_bulletin_revision" schema="cct">
 <column dbComment="" dbDefaultValue="" dbName="rev_id" dbNotNull="true" dbPosition="1" dbPrimaryKey="true" dbSize="10" dbTypeName="int4" inputType="number" javaName="revId" javaType="java.lang.Integer" jdbcTypeCode="4" label="Rev id" notNull="true" selected="true"/>
@@ -102,6 +114,26 @@
 <column dbComment="" dbDefaultValue="" dbName="last_updated_by" dbNotNull="true" dbPosition="5" dbSize="20" dbTypeName="varchar" inputType="text" javaName="lastUpdatedBy" javaType="java.lang.String" jdbcTypeCode="12" label="Last updated by" maxLength="20" notEmpty="true" notNull="true" selected="true"/>
 <column dateType="DT" dbComment="" dbDefaultValue="" dbName="last_updated_date" dbNotNull="true" dbPosition="6" dbSize="29" dbTypeName="timestamp" inputType="" javaName="lastUpdatedDate" javaType="java.util.Date" jdbcTypeCode="93" label="Last updated date" notNull="true" selected="true"/>
 <column dbComment="" dbDefaultValue="" dbName="bulletin_type_code" dbNotNull="false" dbPosition="7" dbSize="10" dbTypeName="int4" inputType="number" javaName="bulletinTypeCode" javaType="java.lang.Integer" jdbcTypeCode="4" label="Bulletin type code" notNull="false" selected="true"/>
+</table>
+<table catalog="" databaseType="TABLE" javaBean="ComtApplicationCode" name="comt_application_code" schema="cct">
+<column dbComment="" dbDefaultValue="" dbName="code_id" dbNotNull="true" dbPosition="1" dbPrimaryKey="true" dbSize="19" dbTypeName="int8" inputType="number" javaName="codeId" javaType="java.lang.Long" jdbcTypeCode="-5" label="Code id" notNull="true" selected="true"/>
+<column dbComment="" dbDefaultValue="" dbName="application_id" dbNotNull="true" dbPosition="2" dbSize="30" dbTypeName="varchar" inputType="text" javaName="applicationId" javaType="java.lang.String" jdbcTypeCode="12" label="Application id" maxLength="30" notEmpty="true" notNull="true" selected="true"/>
+<column dbComment="" dbDefaultValue="" dbName="code_type" dbNotNull="true" dbPosition="3" dbSize="30" dbTypeName="varchar" inputType="text" javaName="codeType" javaType="java.lang.String" jdbcTypeCode="12" label="Code type" maxLength="30" notEmpty="true" notNull="true" selected="true"/>
+<column dbComment="" dbDefaultValue="" dbName="code_name" dbNotNull="true" dbPosition="4" dbSize="50" dbTypeName="varchar" inputType="text" javaName="codeName" javaType="java.lang.String" jdbcTypeCode="12" label="Code name" maxLength="50" notEmpty="true" notNull="true" selected="true"/>
+<column dbComment="" dbDefaultValue="" dbName="code_description" dbNotNull="false" dbPosition="5" dbSize="200" dbTypeName="varchar" inputType="text" javaName="codeDescription" javaType="java.lang.String" jdbcTypeCode="12" label="Code description" maxLength="200" notNull="false" selected="true"/>
+<column dbComment="" dbDefaultValue="" dbName="code_value" dbNotNull="false" dbPosition="6" dbSize="10" dbTypeName="numeric" inputType="number" javaName="codeValue" javaType="java.math.BigDecimal" jdbcTypeCode="2" label="Code value" notNull="false" selected="true"/>
+<column dbComment="" dbDefaultValue="" dbName="code_flag" dbNotNull="false" dbPosition="7" dbSize="1" dbTypeName="bpchar" inputType="text" javaName="codeFlag" javaType="java.lang.String" jdbcTypeCode="1" label="Code flag" maxLength="1" notNull="false" selected="true"/>
+<column dbComment="" dbDefaultValue="" dbName="created_by" dbNotNull="false" dbPosition="8" dbSize="10" dbTypeName="varchar" inputType="text" javaName="createdBy" javaType="java.lang.String" jdbcTypeCode="12" label="Created by" maxLength="10" notNull="false" selected="true"/>
+<column dateType="DT" dbComment="" dbDefaultValue="" dbName="created_date" dbNotNull="false" dbPosition="9" dbSize="29" dbTypeName="timestamp" inputType="" javaName="createdDate" javaType="java.util.Date" jdbcTypeCode="93" label="Created date" notNull="false" selected="true"/>
+<column dbComment="" dbDefaultValue="" dbName="last_mod_by" dbNotNull="false" dbPosition="10" dbSize="20" dbTypeName="varchar" inputType="text" javaName="lastModBy" javaType="java.lang.String" jdbcTypeCode="12" label="Last mod by" maxLength="20" notNull="false" selected="true"/>
+<column dateType="DT" dbComment="" dbDefaultValue="" dbName="last_mod_date" dbNotNull="false" dbPosition="11" dbSize="29" dbTypeName="timestamp" inputType="" javaName="lastModDate" javaType="java.util.Date" jdbcTypeCode="93" label="Last mod date" notNull="false" selected="true"/>
+</table>
+<table catalog="" databaseType="TABLE" javaBean="GeActiveUsers" name="ge_active_users" schema="cct">
+<column dbAutoIncremented="true" dbComment="" dbDefaultValue="nextval('cct.ge_active_users_cal_id_seq'::regclass)" dbName="cal_id" dbNotNull="true" dbPosition="1" dbPrimaryKey="true" dbSize="19" dbTypeName="bigserial" inputType="number" javaName="calId" javaType="java.lang.Long" jdbcTypeCode="-5" label="Cal id" notNull="true" selected="true"/>
+<column dbComment="" dbDefaultValue="" dbName="e_mail_address" dbNotNull="true" dbPosition="2" dbSize="55" dbTypeName="varchar" inputType="text" javaName="eMailAddress" javaType="java.lang.String" jdbcTypeCode="12" label="E mail address" maxLength="55" notEmpty="true" notNull="true" selected="true"/>
+<column dbComment="" dbDefaultValue="" dbName="code_id" dbNotNull="true" dbPosition="3" dbSize="20" dbTypeName="varchar" inputType="text" javaName="codeId" javaType="java.lang.String" jdbcTypeCode="12" label="Code id" maxLength="20" notEmpty="true" notNull="true" selected="true"/>
+<column dbComment="" dbDefaultValue="" dbName="code_name" dbNotNull="true" dbPosition="4" dbSize="30" dbTypeName="varchar" inputType="text" javaName="codeName" javaType="java.lang.String" jdbcTypeCode="12" label="Code name" maxLength="30" notEmpty="true" notNull="true" selected="true"/>
+<column dbComment="" dbDefaultValue="" dbName="code_description" dbNotNull="true" dbPosition="5" dbSize="50" dbTypeName="varchar" inputType="text" javaName="codeDescription" javaType="java.lang.String" jdbcTypeCode="12" label="Code description" maxLength="50" notEmpty="true" notNull="true" selected="true"/>
 </table>
 </tableList>
 </root>

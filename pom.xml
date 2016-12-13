@@ -4,7 +4,7 @@
   <groupId>org.ge.powerwater.ibct</groupId>
   <artifactId>ibct-service</artifactId>
   <packaging>jar</packaging>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>0.0.2-SNAPSHOT</version>
   <name>ibct Maven Webapp</name>
   <url>http://maven.apache.org</url>
   <properties>
@@ -82,8 +82,7 @@
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <!-- <version>9.1-901-1.jdbc4</version> -->
-            <version>${postgres.driver.version}</version> 
-        </dependency>
+            </dependency>
         
         <!-- Logging -->
         <dependency>
@@ -124,6 +123,10 @@
 			<groupId>org.neo4j</groupId>
 			<artifactId>neo4j-cypher-compiler-2.1</artifactId>
 			<version>2.1.5</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-jta-narayana</artifactId>
 		</dependency>
   </dependencies>
   <build>
