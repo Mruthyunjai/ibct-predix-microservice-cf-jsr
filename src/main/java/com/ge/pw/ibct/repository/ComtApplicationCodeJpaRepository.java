@@ -11,6 +11,6 @@ import com.ge.pw.ibct.entity.ComtApplicationCodeEntity;
  */
 public interface ComtApplicationCodeJpaRepository extends PagingAndSortingRepository<ComtApplicationCodeEntity, Long> {
 
-	List<ComtApplicationCodeEntity> findByCodeType(String codeType);
+	List<ComtApplicationCodeEntity> findByCodeTypeOrderByCodeName(String codeType);
 
 }

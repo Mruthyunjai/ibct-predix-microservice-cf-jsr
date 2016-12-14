@@ -20,19 +20,20 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.ge.pw.ibct.dto.AddBulletinDto;
 //import com.ge.pw.ibct.dto.AddBulletinDto.Serials;
 import com.ge.pw.ibct.dto.Bulletindto;
+import com.ge.pw.ibct.dto.TimingDto;
 import com.ge.pw.ibct.services.BulletinService;
 import com.ge.pw.ibct.utils.CommonUtil;
 import com.ge.pw.ibct.utils.WSResponseStatus;
 
 @RestController
 @RequestMapping("/ibct")
-public class BulletinController{
-	
+public class BulletinController {
+
 	Bulletindto bulletindto;
-	
+
 	@Autowired
 	BulletinService bulletinService;
-	
+
 	@RequestMapping("/Bulletin/{bullNum}")
 	public @ResponseBody WSResponseStatus getBulletin(
 			@PathVariable String bullNum) {
@@ -41,39 +42,62 @@ public class BulletinController{
 		wsResponseStatus.setData(bulletinService.getBulletin(bullNum));
 		return wsResponseStatus;
 	}
-	
-	@RequestMapping("/Bulletin/Cancel/{bullNum}")
-	public @ResponseBody WSResponseStatus cancelBulletin(
-			@PathVariable String bullNum) {
+
+	@CrossOrigin(origins = "http://localhost:8080")
+	@RequestMapping(value = "/Bulletin/Superced", method = RequestMethod.POST)
+	public @ResponseBody WSResponseStatus getSupercedValues(
+			@RequestBody AddBulletinDto bulletin) {
 		WSResponseStatus wsResponseStatus = new WSResponseStatus();
 		CommonUtil.populateWSResponseStatusSuccessResponse(wsResponseStatus);
-		wsResponseStatus.setData(bulletinService.cancelBulletin(bullNum));
-		return wsResponseStatus;
+
+		try {
+			wsResponseStatus.setData(bulletinService.getSupercedValues(
+					bulletin.getBulletinTypeCode(), bulletin.getProductLine(),
+					bulletin.getBulletinStatus()));
+			return wsResponseStatus;
+		} catch (Exception ex) {
+			CommonUtil.populateWSResponseStatusFailsureStatusResponse(
+					wsResponseStatus, ex.fillInStackTrace().toString());
+			return wsResponseStatus;
+		}
+
 	}
-	
-	
-	@RequestMapping("/Bulletin/Superced/{bulletinTypeCode}/{productLine}/{bulletinStatus}")
-    public @ResponseBody WSResponseStatus getSupercedValues(
-                                    @PathVariable Integer bulletinTypeCode,@PathVariable String productLine,
-                                    @PathVariable String bulletinStatus) {
-                    WSResponseStatus wsResponseStatus = new WSResponseStatus();
-                    CommonUtil.populateWSResponseStatusSuccessResponse(wsResponseStatus);
-                    wsResponseStatus.setData(bulletinService.getSupercedValues(
-                                                    bulletinTypeCode, productLine, bulletinStatus));
-                    
-                    return wsResponseStatus;
-    }
+
+	@CrossOrigin(origins = "http://localhost:8080")
+	@RequestMapping(value = "/Bulletin/Bulletins", method = RequestMethod.POST)
+	public @ResponseBody WSResponseStatus getBulletins(
+			@RequestBody AddBulletinDto bulletin) {
+		WSResponseStatus wsResponseStatus = new WSResponseStatus();
+		CommonUtil.populateWSResponseStatusSuccessResponse(wsResponseStatus);
+
+		try {
+			wsResponseStatus.setData(bulletinService.getBulletins(
+					bulletin.getBulletinTypeCode(), bulletin.getProductLine()));
+			return wsResponseStatus;
+		} catch (Exception ex) {
+			CommonUtil.populateWSResponseStatusFailsureStatusResponse(
+					wsResponseStatus, ex.fillInStackTrace().toString());
+			return wsResponseStatus;
+		}
+
+	}
+
 	@CrossOrigin(origins = "http://localhost:8080")
 	@RequestMapping(value = "/Bulletin/CancelBulletin", method = RequestMethod.POST)
-    public @ResponseBody WSResponseStatus getSupercedValuesRequest(
-                                    @RequestBody Bulletindto bulletin) {
+	public @ResponseBody WSResponseStatus cancelBulletin(
+			@RequestBody Bulletindto bulletin) {
 		WSResponseStatus wsResponseStatus = new WSResponseStatus();
 		CommonUtil.populateWSResponseStatusSuccessResponse(wsResponseStatus);
-		wsResponseStatus.setData(bulletinService.cancelBulletin(bulletin.getBulletinNum()));
-		return wsResponseStatus;
-    }
-	
-	
+		try {
+			wsResponseStatus.setData(bulletinService.cancelBulletin(bulletin.getBulletinNum()));
+			return wsResponseStatus;
+		} catch (Exception ex) {
+			CommonUtil.populateWSResponseStatusFailsureStatusResponse(
+					wsResponseStatus, ex.fillInStackTrace().toString());
+			return wsResponseStatus;
+		}
+	}
+
 	@CrossOrigin(origins = "http://localhost:8080")
 	@RequestMapping("/Bulletin/BulletinTypes")
 	public @ResponseBody WSResponseStatus getBulletinTypeValues()
@@ -85,18 +109,19 @@ public class BulletinController{
 
 		return wsResponseStatus;
 	}
-	
+
 	@RequestMapping("/Bulletin/CodeDescription/{codeType}")
 	public @ResponseBody WSResponseStatus getCategoryCodeValues(
 			@PathVariable String codeType) throws IOException {
 
 		WSResponseStatus wsResponseStatus = new WSResponseStatus();
 		CommonUtil.populateWSResponseStatusSuccessResponse(wsResponseStatus);
-		//wsResponseStatus.setData(bulletinService
-		//		.getCategoryAndTimings(codeType));
-		
+		// wsResponseStatus.setData(bulletinService
+		// .getCategoryAndTimings(codeType));
+
 		return wsResponseStatus;
 	}
+
 	@CrossOrigin(origins = "http://localhost:8080")
 	@RequestMapping("/Bulletin/Serials/{productLine}/{bulletinTypeCode}")
 	public @ResponseBody WSResponseStatus getSerials(
@@ -108,32 +133,38 @@ public class BulletinController{
 
 		wsResponseStatus.setData(bulletinService.getSerialValues(productLine,
 				bulletinTypeCode));
-		
+
 		return wsResponseStatus;
 	}
+
 	@CrossOrigin(origins = "http://localhost:8080")
 	@RequestMapping("/Bulletin/TimingCodes")
-	public @ResponseBody WSResponseStatus getCode(){
+	public @ResponseBody WSResponseStatus getCode() {
 		WSResponseStatus wsResponseStatus = new WSResponseStatus();
 		CommonUtil.populateWSResponseStatusSuccessResponse(wsResponseStatus);
-		wsResponseStatus.setData(bulletinService.getCode("TIMING CODE"));
+		TimingDto objTimingDto = new TimingDto();
+
+		wsResponseStatus.setData(objTimingDto
+				.getTimingCodesFromEntity(bulletinService
+						.getCode("TIMING_CODE")));
+		// wsResponseStatus.setData(bulletinService.getCode("TIMING_CODE"));
 		return wsResponseStatus;
 	}
-	
-	
+
 	@CrossOrigin(origins = "http://localhost:8080")
 	@RequestMapping("/Bulletin/Insert")
-	public @ResponseBody WSResponseStatus insertBulletin(@RequestBody AddBulletinDto bulletinDetails) {
+	public @ResponseBody WSResponseStatus insertBulletin(
+			@RequestBody AddBulletinDto bulletinDetails) {
 		WSResponseStatus wsResponseStatus = new WSResponseStatus();
 		CommonUtil.populateWSResponseStatusSuccessResponse(wsResponseStatus);
-		
-		try{
+
+		try {
 			bulletinDetails.setCreatedDate(new Date());
 			bulletinDetails.setLastUpdatedDate(new Date());
 			bulletinDetails.setRevisionDate(new Date());
-			
-		
-			wsResponseStatus.setData(bulletinService.insertBulletin(bulletinDetails.getBulletinNum(),
+
+			wsResponseStatus.setData(bulletinService.insertBulletin(
+					bulletinDetails.getBulletinNum(),
 					bulletinDetails.getBulletinStatus(),
 					bulletinDetails.getBulletinTypeCode(),
 					bulletinDetails.getCategory(),
@@ -150,6 +181,7 @@ public class BulletinController{
 					bulletinDetails.getSupercededBulletinNum(),
 					bulletinDetails.getTrackImplimentationPlan(),
 					bulletinDetails.getVoucherProgram(),
+					bulletinDetails.getFieldImplementationMetric(),
 					bulletinDetails.getProductLine(),
 					bulletinDetails.getDescription(),
 					bulletinDetails.getRevision(),
@@ -157,13 +189,13 @@ public class BulletinController{
 					bulletinDetails.getToserials(),
 					bulletinDetails.getTimings()));
 			return wsResponseStatus;
-		}
-		catch(Exception ex){
-			CommonUtil.populateWSResponseStatusFailsureStatusResponse(wsResponseStatus, ex.fillInStackTrace().toString());
+		} catch (Exception ex) {
+			CommonUtil.populateWSResponseStatusFailsureStatusResponse(
+					wsResponseStatus, ex.fillInStackTrace().toString());
 			return wsResponseStatus;
 		}
 		//
-		//System.out.println("plList :"+i);
-		
+		// System.out.println("plList :"+i);
+
 	}
 }

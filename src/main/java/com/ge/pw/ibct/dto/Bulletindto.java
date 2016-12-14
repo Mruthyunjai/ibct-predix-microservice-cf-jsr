@@ -11,18 +11,18 @@ public class Bulletindto{
 	private String     bulletinNum  ;
 	private Integer    bulletinTypeCode ;
 	
-	@JsonFormat(pattern = "yyyy/MM/dd", timezone = "CET")
+	@JsonFormat(pattern = "MM/dd/yyyy", timezone = "CET")
 	private Date       issueDate    ;
 	private String     bulletinStatus ;
 	private String     supercededBulletinNum ;
 	private Integer    latestRevId  ;
 	private String     createdBy    ;
 	
-	@JsonFormat(pattern = "yyyy/MM/dd", timezone = "CET")
+	@JsonFormat(pattern = "MM/dd/yyyy", timezone = "CET")
 	private Date       createdDate  ;
 	private String     lastUpdatedBy ;
 	
-	@JsonFormat(pattern = "yyyy/MM/dd", timezone = "CET")
+	@JsonFormat(pattern = "MM/dd/yyyy", timezone = "CET")
 	private Date       lastUpdatedDate ;
 	
 	public Bulletindto()

@@ -1,5 +1,6 @@
 package com.ge.pw.ibct.repository;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.data.repository.PagingAndSortingRepository;
@@ -18,4 +19,5 @@ public interface CcttBulletinJpaRepository extends PagingAndSortingRepository<Cc
 	
 	List<CcttBulletinEntity> findByBulletinTypeCodeAndProductLineAndBulletinStatus(Integer bulletinTypeCode,String productLine,String bulletinStatus);
 	<S extends CcttBulletinEntity> S save(S entity);
+	List<CcttBulletinEntity> findByBulletinTypeCodeAndProductLineOrderByBulletinNum(Integer bulletinTypeCode, String productLine);
 }

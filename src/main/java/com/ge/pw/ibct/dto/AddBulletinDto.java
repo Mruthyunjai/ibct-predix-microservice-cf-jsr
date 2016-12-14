@@ -7,6 +7,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 //import com.ge.pw.ibct.dto.AddBulletinDto.Serials;
 
 /**
@@ -18,14 +20,15 @@ public class AddBulletinDto extends Bulletindto {
 	private String category;
 	
 	private String complianceLevel;
-	private List<String> timings;
+	private Integer[] timings;
 	private String[] fromserials;
 	private String[] toserials;
-	
+	@JsonFormat(pattern = "MM/dd/yyyy", timezone = "CET")
 	private Date revisionDate;
 	private Boolean trackImplimentationPlan;
 	private Boolean significant;
 	private Boolean voucherProgram;
+	private Boolean fieldImplementationMetric;
 	private String remarks;
 	
 	private String productLine;
@@ -45,13 +48,14 @@ public class AddBulletinDto extends Bulletindto {
 	public void setComplianceLevel(String complianceLevel) {
 		this.complianceLevel = complianceLevel;
 	}
-	public List<String> getTimings() {
+
+	
+	public Integer[] getTimings() {
 		return timings;
 	}
-	public void setTimings(List<String> timings) {
+	public void setTimings(Integer[] timings) {
 		this.timings = timings;
 	}
-	
 	public String[] getFromserials() {
 		return fromserials;
 	}
@@ -87,6 +91,12 @@ public class AddBulletinDto extends Bulletindto {
 	}
 	public void setVoucherProgram(Boolean voucherProgram) {
 		this.voucherProgram = voucherProgram;
+	}
+	public Boolean getFieldImplementationMetric() {
+		return fieldImplementationMetric;
+	}
+	public void setFieldImplementationMetric(Boolean fieldImplementationMetric) {
+		this.fieldImplementationMetric = fieldImplementationMetric;
 	}
 	public String getRemarks() {
 		return remarks;

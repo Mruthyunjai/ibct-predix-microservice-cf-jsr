@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 
+
 import com.ge.pw.ibct.services.ProductService;
 import com.ge.pw.ibct.utils.CommonUtil;
 import com.ge.pw.ibct.utils.WSResponseStatus;
@@ -28,8 +29,14 @@ public class ProductController{
 	public @ResponseBody WSResponseStatus getProductLines(){
 		WSResponseStatus wsResponseStatus = new WSResponseStatus();
 		CommonUtil.populateWSResponseStatusSuccessResponse(wsResponseStatus);
-		wsResponseStatus.setData(productService.getProductLine());
-		return wsResponseStatus;
+		try{
+			wsResponseStatus.setData(productService.getProductLine());
+			return wsResponseStatus;
+		}
+		catch(Exception ex){
+			CommonUtil.populateWSResponseStatusFailsureStatusResponse(wsResponseStatus, ex.fillInStackTrace().toString());
+			return wsResponseStatus;
+		}
 		
 	}
 	
