@@ -13,4 +13,6 @@ public interface ComtApplicationCodeJpaRepository extends PagingAndSortingReposi
 
 	List<ComtApplicationCodeEntity> findByCodeTypeOrderByCodeName(String codeType);
 
+	ComtApplicationCodeEntity findByCodeId(Long code);
+
 }
