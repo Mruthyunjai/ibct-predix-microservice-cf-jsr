@@ -8,12 +8,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Persistence;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.Predicate;
+
+import org.apache.hadoop.mapred.gethistory_jsp;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.neo4j.cypher.internal.compiler.v2_1.ast.rewriters.distributeLawsRewriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
+
+import scala.Console;
 
 import com.ge.pw.ibct.beans.CcttBulletin;
 import com.ge.pw.ibct.repository.CcttBulletinJpaRepository;
@@ -106,6 +114,26 @@ public class BulletinService {
 
 	}
 
+	public Integer getCategoryCode(String category) {
+		System.out.println("Category:"+category);	
+		switch (category) {
+		case "SPS CONVERSION":
+			return 20000028;
+		case "ALERT":
+			return 20000019;
+		case "CAMPAIGN":
+			return 20000020;
+		case "ROUTINE":
+			return 20000021;
+		case "OPTIONAL":
+			return 20000022;
+
+		default: return 1;
+			
+		}
+		
+	}
+
 	/*
 	 * public List<String> getBulletinTypeValues(){ List<CcttBulletinEntity>
 	 * bulletinTypeValues = ccttBulletinJpaRepository.findAll(); }
@@ -174,9 +202,9 @@ public class BulletinService {
 			Integer bulletinTypeCode, String category, String complianceLevel,
 			String createdBy, Object createdDate, Date issueDate,
 			String lastUpdatedBy, Object lastUpdatedDate, Integer latestRevId,
-			String remarks, Date revisionDate, Boolean significant,
-			String supercededBulletinNum, Boolean trackImplimentationPlan,
-			Boolean voucherProgram, Boolean fieldImplementationMetric,
+			String remarks, Date revisionDate, String significant,
+			String supercededBulletinNum, String trackImplimentationPlan,
+			String voucherProgram, String fieldImplementationMetric,
 			String productLine, String description, String revision,
 			String[] fromSerials, String[] toSerials, Integer[] timings) {
 
@@ -185,7 +213,7 @@ public class BulletinService {
 		CcttProductLineEntity plEnt = ccttProductLineJpaRepository
 				.findByProductLine(productLine);
 		bulletinStatus = "EFFECTIVE";
-
+		
 		// Set Bulletin
 		bulletinEnt.setBulletinNum(bulletinNum);
 		bulletinEnt.setBulletinStatus(bulletinStatus);
@@ -197,7 +225,7 @@ public class BulletinService {
 		bulletinEnt.setIssueDate(issueDate);
 		bulletinEnt.setLastUpdatedBy(createdBy);
 		bulletinEnt.setLastUpdatedDate(new Date());
-		bulletinEnt.setLatestRevId(Integer.parseInt(revision));
+		bulletinEnt.setLatestRevId(0);
 		bulletinEnt.setSupercededBulletinNum(supercededBulletinNum);
 
 		ccttBulletinJpaRepository.save(bulletinEnt);
@@ -213,7 +241,8 @@ public class BulletinService {
 												// comt_application_code table -
 												// code_type =
 												// 'BULLETIN_CATEGORY'
-			revEnt.setComplianceLevel("SPS"); // Hardcoded in Constant.java
+			revEnt.setComplianceLevel(complianceLevel); // Hardcoded in
+														// Constant.java
 			revEnt.setCreatedBy(createdBy);
 			revEnt.setCreatedDate(new Date());
 
@@ -222,37 +251,24 @@ public class BulletinService {
 			revEnt.setLastUpdatedDate(new Date());
 			revEnt.setRemarks(remarks);
 			revEnt.setRevDate(revisionDate);
-			revEnt.setRevId(Integer.parseInt(revision));
+			revEnt.setRevId(0);
 			// revEnt.setTimingCode(getCode("TIMING_CODE")); //refers to code_id
 			// in comt_application_code table - code_type = 'TIMING_CODE'
 
-			if (trackImplimentationPlan) {
-				revEnt.setTrackImplementationInd("Y");
-			} else {
-				revEnt.setTrackImplementationInd("N");
-			}
-			if (significant) {
-				revEnt.setSignificantInd("Y");
-			} else {
-				revEnt.setSignificantInd("N");
-			}
-			if (voucherProgram) {
-				revEnt.setVoucherProgramInd("Y");
-			} else {
-				revEnt.setVoucherProgramInd("N");
-			}
-			if (fieldImplementationMetric) {
-				revEnt.setFieldImplMetricInd("Y");
-			} else {
-				revEnt.setFieldImplMetricInd("N");
-			}
+			revEnt.setTrackImplementationInd(trackImplimentationPlan);
+
+			revEnt.setSignificantInd(significant);
+
+			revEnt.setVoucherProgramInd(voucherProgram);
+
+			revEnt.setFieldImplMetricInd(fieldImplementationMetric);
 
 			revEnt.setTimingCode(timings[i]);
 
 			for (int j = 0; j < fromSerials.length; j++) {
 				CcttBulletinProductEntity serialEnt = new CcttBulletinProductEntity();
 				serialEnt.setBulletinNum(bulletinNum);
-				serialEnt.setRevId(Integer.parseInt(revision));
+				serialEnt.setRevId(0);
 				serialEnt.setFromSerialNum(fromSerials[j]);
 				serialEnt.setToSerialNum(toSerials[j]);
 				serialEnt.setTimingCode(timings[i]);
@@ -274,62 +290,74 @@ public class BulletinService {
 			Integer bulletinTypeCode, String category, String complianceLevel,
 			String createdBy, Date createdDate, Date issueDate,
 			String lastUpdatedBy, Date lastUpdatedDate, Integer latestRevId,
-			String remarks, Date revisionDate, Boolean significant,
-			String supercededBulletinNum, Boolean trackImplimentationPlan,
-			Boolean voucherProgram, Boolean fieldImplementationMetric,
+			String remarks, Date revisionDate, String significant,
+			String supercededBulletinNum, String trackImplimentationPlan,
+			String voucherProgram, String fieldImplementationMetric,
 			String productLine, String description, String revision,
-			String[] fromSerials, String[] toSerials, Integer[] timings) {
+			String[] fromSerials, String[] toSerials, Integer[] timings,Boolean newRevision) {
 
-		
-		  
-		  
-		  CcttBulletinRevisionEntityKey ccttBulletinRevisionEntityKey=new
-		  CcttBulletinRevisionEntityKey();
-		  ccttBulletinRevisionEntityKey.setBulletinNum(bulletinNum);
-		  ccttBulletinRevisionEntityKey.setRevId(latestRevId);
-		  if(timings.length >0)
-		  ccttBulletinRevisionEntityKey.setTimingCode(timings[0]);
-		  CcttBulletinRevisionEntity revEnt =ccttBulletinRevisionJpaRepository.findOne(ccttBulletinRevisionEntityKey);
-		 
-
-		CcttBulletinEntity bulletinEnt = ccttBulletinJpaRepository
-				.findOne(bulletinNum);
-		//
-		CcttProductLineEntity plEnt = ccttProductLineJpaRepository
-				.findByProductLine(productLine);
-		bulletinStatus = "EFFECTIVE";
-
-		// Set Bulletin
-		bulletinEnt.setBulletinNum(bulletinNum);
-		bulletinEnt.setBulletinStatus(bulletinStatus);
-		bulletinEnt.setBulletinTypeCode(bulletinTypeCode);
-		bulletinEnt.setProductLine(plEnt.getProductLine());
-
-		bulletinEnt.setCreatedBy(createdBy);
-		bulletinEnt.setCreatedDate(new Date());
-		bulletinEnt.setIssueDate(issueDate);
+		CcttBulletinEntity bulletinEnt = new CcttBulletinEntity();
+		CcttBulletinRevisionEntity revEnt = new CcttBulletinRevisionEntity();
+		bulletinEnt = getBulletin(bulletinNum);
 		bulletinEnt.setLastUpdatedBy(createdBy);
 		bulletinEnt.setLastUpdatedDate(new Date());
-		bulletinEnt.setLatestRevId(Integer.parseInt(revision));
-		bulletinEnt.setSupercededBulletinNum(supercededBulletinNum);
+		if(newRevision)
+			bulletinEnt.setLatestRevId(bulletinEnt.getLatestRevId()+1);
+			
+		System.out.println("Timings length :"+timings.length);
+		for (int i = 0; i < timings.length; i++) {
+			revEnt.setBulletinDesc(description);
+			revEnt.setBulletinNum(bulletinNum);
+			revEnt.setBulletinRevision(revision); 
+						// if null, set it to 0. If
+													// not 0, increment it. If
+													// 0, and 0 already exists,
+													// check for different value
+													// of timing.
+			revEnt.setCategoryCode(getCategoryCode(category)); // refers to code_id in
+												// comt_application_code
+												// table -
+												// code_type =
+												// 'BULLETIN_CATEGORY'
+			
+			revEnt.setComplianceLevel(complianceLevel); // Hardcoded in
+														// Constant.java
+			revEnt.setCreatedBy(createdBy);
+			revEnt.setCreatedDate(new Date());
 
-		ccttBulletinJpaRepository.save(bulletinEnt);
+			// Only while updating.
+			revEnt.setLastUpdatedBy(createdBy);
+			revEnt.setLastUpdatedDate(new Date());
+			revEnt.setRemarks(remarks);
+			revEnt.setRevDate(revisionDate);
+			if(newRevision)
+				revEnt.setRevId(bulletinEnt.getLatestRevId()+1);
+			else
+				revEnt.setRevId(latestRevId);
+			// revEnt.setTimingCode(getCode("TIMING_CODE")); //refers to code_id
+			// in comt_application_code table - code_type = 'TIMING_CODE'
 
-		for (int j = 0; j < fromSerials.length; j++) {
+			revEnt.setTrackImplementationInd(trackImplimentationPlan);
 
-			CcttBulletinProductEntityKey ccttBulletinProductEntityKey = new CcttBulletinProductEntityKey();
-			ccttBulletinProductEntityKey.setBulletinNum(bulletinNum);
-			ccttBulletinProductEntityKey.setRevId(latestRevId);
-			ccttBulletinProductEntityKey.setFromSerialNum(fromSerials[j]);
-			CcttBulletinProductEntity existserialEnt = ccttBulletinProductJpaRepository
-					.findOne(ccttBulletinProductEntityKey);
-			if (existserialEnt != null) {
+			revEnt.setSignificantInd(significant);
+
+			revEnt.setVoucherProgramInd(voucherProgram);
+
+			revEnt.setFieldImplMetricInd(fieldImplementationMetric);
+
+			revEnt.setTimingCode(timings[i]);
+
+			for (int j = 0; j < fromSerials.length; j++) {
 				CcttBulletinProductEntity serialEnt = new CcttBulletinProductEntity();
 				serialEnt.setBulletinNum(bulletinNum);
-				serialEnt.setRevId(Integer.parseInt(revision));
+				if(newRevision)
+					serialEnt.setRevId(bulletinEnt.getLatestRevId()+1);
+				else
+					serialEnt.setRevId(latestRevId);
+				
 				serialEnt.setFromSerialNum(fromSerials[j]);
 				serialEnt.setToSerialNum(toSerials[j]);
-				// serialEnt.setTimingCode(timings[j]);
+				serialEnt.setTimingCode(timings[i]);
 				serialEnt.setCreatedBy(createdBy);
 				serialEnt.setCreatedDate(new Date());
 				serialEnt.setLastUpdatedBy(createdBy);
@@ -337,12 +365,12 @@ public class BulletinService {
 				serialEnt.setCmplEndDate(new Date());
 				ccttBulletinProductJpaRepository.save(serialEnt);
 			}
-		}
 
-		ccttBulletinRevisionJpaRepository.save(revEnt);
+			ccttBulletinRevisionJpaRepository.save(revEnt);
+		}
+		ccttBulletinJpaRepository.save(bulletinEnt);
 		// }
 		return 1;
-
 	}
 
 	public Object getBulletins(Integer bulletinTypeCode, String productLine) {
@@ -361,6 +389,18 @@ public class BulletinService {
 	public String bulletinCodeValues(Long code) {
 		// TODO Auto-generated method stub
 		return codeJpaRepository.findByCodeId(code).getCodeDescription();
+	}
+
+	/*
+	 * Testing predicate builder
+	 * ************************************************
+	 * ***********************************************************
+	 */
+	public void testingpredicate() {
+		// EntityManager em = Persistence.createEntityManagerFactory(
+		// "Eclipselink_JPA" ); ;
+		// CriteriaBuilder predicateBuilder = em.getCriteriaBuilder();
+
 	}
 
 }

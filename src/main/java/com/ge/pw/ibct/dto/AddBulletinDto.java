@@ -25,17 +25,23 @@ public class AddBulletinDto extends Bulletindto {
 	private String[] toserials;
 	@JsonFormat(pattern = "MM/dd/yyyy", timezone = "CET")
 	private Date revisionDate;
-	private Boolean trackImplimentationPlan;
-	private Boolean significant;
-	private Boolean voucherProgram;
-	private Boolean fieldImplementationMetric;
+	private String trackImplimentationPlan;
+	private String significant;
+	private String voucherProgram;
+	private String fieldImplementationMetric;
 	private String remarks;
 	
 	private String productLine;
 	private String description;
 	private String revision;
+	private Boolean newRevision;
 	
-	
+	public Boolean getNewRevision() {
+		return newRevision;
+	}
+	public void setNewRevision(Boolean newRevision) {
+		this.newRevision = newRevision;
+	}
 	public String getCategory() {
 		return category;
 	}
@@ -74,28 +80,28 @@ public class AddBulletinDto extends Bulletindto {
 	public void setRevisionDate(Date revisionDate) {
 		this.revisionDate = revisionDate;
 	}
-	public Boolean getTrackImplimentationPlan() {
+	public String getTrackImplimentationPlan() {
 		return trackImplimentationPlan;
 	}
-	public void setTrackImplimentationPlan(Boolean trackImplimentationPlan) {
+	public void setTrackImplimentationPlan(String trackImplimentationPlan) {
 		this.trackImplimentationPlan = trackImplimentationPlan;
 	}
-	public Boolean getSignificant() {
+	public String getSignificant() {
 		return significant;
 	}
-	public void setSignificant(Boolean significant) {
+	public void setSignificant(String significant) {
 		this.significant = significant;
 	}
-	public Boolean getVoucherProgram() {
+	public String getVoucherProgram() {
 		return voucherProgram;
 	}
-	public void setVoucherProgram(Boolean voucherProgram) {
+	public void setVoucherProgram(String voucherProgram) {
 		this.voucherProgram = voucherProgram;
 	}
-	public Boolean getFieldImplementationMetric() {
+	public String getFieldImplementationMetric() {
 		return fieldImplementationMetric;
 	}
-	public void setFieldImplementationMetric(Boolean fieldImplementationMetric) {
+	public void setFieldImplementationMetric(String fieldImplementationMetric) {
 		this.fieldImplementationMetric = fieldImplementationMetric;
 	}
 	public String getRemarks() {
